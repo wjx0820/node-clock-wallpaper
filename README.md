@@ -6,14 +6,13 @@ A live clock wallpaper using Node.js
 
 ## Usage
 
-Clone the repo and
-make sure your machine have [node and npm](https://nodejs.org/en/) installed.
+Make sure your machine have [node and npm](https://nodejs.org/en/) installed
 
-Then `cd` into the project and run
+Clone the repo and `cd` into it then run
 
 ```
 npm install
-node index.js
+npm run start
 ```
 
 ## Run on startup with pm2
