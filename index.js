@@ -9,13 +9,10 @@ const html = fs.readFileSync("./index.html", (err, html) => {
 	return html
 })
 
-console.log("html", html)
-
-// Run every minute
-cron.schedule("* * * * *", () => {
+const task = () => {
+	console.log("task started!")
 	// Generate a unique name for new wallpaper
 	const imgPath = `./wallpaperclock_${nanoid()}.png`
-	console.log("imgPath", imgPath)
 
 	nodeHtmlToImage({
 		output: imgPath,
@@ -34,9 +31,16 @@ cron.schedule("* * * * *", () => {
 				})
 			}
 		})
-		wallpaper.set(imgPath, { scale: "fit" }).then((err) => {
+		wallpaper.set(imgPath).then((err) => {
 			if (err) throw err
 			console.log("wallpaper set!")
 		})
 	})
-})
+}
+
+task()
+
+// Run every minute
+const cronJob = cron.schedule("* * * * *", task, { scheduled: false })
+
+cronJob.start()
