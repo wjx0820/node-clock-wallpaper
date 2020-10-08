@@ -1,18 +1,21 @@
 {
-  "name": "node-clock-wallpaper",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "nanoid": "^3.1.12",
-    "node-cron": "^2.0.3",
-    "node-html-to-image": "^3.1.0",
-    "wallpaper": "^4.4.1"
-  }
+	"name": "node-clock-wallpaper",
+	"version": "1.0.0",
+	"description": "A live clock wallpaper using Node.js",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"nodejs"
+	],
+	"author": "wjx0820",
+	"license": "ISC",
+	"dependencies": {
+		"nanoid": "^3.1.12",
+		"node-cron": "^2.0.3",
+		"node-html-to-image": "^3.1.0",
+		"ora": "^5.1.0",
+		"wallpaper": "^4.4.1"
+	}
 }

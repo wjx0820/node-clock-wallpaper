@@ -1,5 +1,6 @@
-const nodeHtmlToImage = require("node-html-to-image")
 const fs = require("fs")
+const ora = require("ora")
+const nodeHtmlToImage = require("node-html-to-image")
 const wallpaper = require("wallpaper")
 const cron = require("node-cron")
 const { nanoid } = require("nanoid")
@@ -9,8 +10,9 @@ const html = fs.readFileSync("./index.html", (err, html) => {
 	return html
 })
 
-const task = () => {
-	console.log("task started!")
+const startSpinner = ora("Starting...\n").start()
+
+cron.schedule("* * * * *", () => {
 	// Generate a unique name for new wallpaper
 	const imgPath = `./wallpaperclock_${nanoid()}.png`
 
@@ -18,29 +20,25 @@ const task = () => {
 		output: imgPath,
 		html: html.toString("utf-8"),
 	}).then(() => {
-		console.log("image created!")
+		startSpinner.succeed("Image create!")
+
 		//Remove last wallpaper image file if exists
-		wallpaper.get().then((oldFile) => {
+		wallpaper.get({ screen: "main" }).then((oldFile) => {
 			if (oldFile.includes("wallpaperclock")) {
 				fs.unlink(oldFile, (err) => {
 					if (err) {
 						console.error(err)
 						return
 					}
-					console.log("last image removed!")
+					startSpinner.succeed("Old image remove!")
 				})
 			}
 		})
-		wallpaper.set(imgPath).then((err) => {
+
+		// Set the created image as wallpaper
+		wallpaper.set(imgPath, { screen: "main" }).then((err) => {
 			if (err) throw err
-			console.log("wallpaper set!")
+			startSpinner.succeed("Wallpaper set!")
 		})
 	})
-}
-
-task()
-
-// Run every minute
-const cronJob = cron.schedule("* * * * *", task, { scheduled: false })
-
-cronJob.start()
+})
